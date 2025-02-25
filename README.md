@@ -27,12 +27,6 @@ cd laravel-realtime-product-show-with-pusher
 composer install
 ```
 
-If you also need to install frontend dependencies:
-
-```sh
-npm install
-```
-
 ### 3. Copy `.env` File & Generate Application Key
 
 ```sh
@@ -51,6 +45,13 @@ DB_PORT=3306
 DB_DATABASE=your_database_name
 DB_USERNAME=your_database_user
 DB_PASSWORD=your_database_password
+
+
+BROADCAST_DRIVER=pusher
+PUSHER_APP_ID=1947953
+PUSHER_APP_KEY=36ba5d689f573cef7020
+PUSHER_APP_SECRET=8288ae53644d254baf94
+PUSHER_APP_CLUSTER=ap2
 ```
 
 ### 5. Run Database Migrations & Seeders (Optional)
@@ -66,13 +67,6 @@ php artisan serve
 ```
 
 This will start the application at `http://127.0.0.1:8000/`.
-
-### Queue & Scheduler (If Required)
-
-```sh
-php artisan queue:work
-php artisan schedule:work
-```
 
 ## Troubleshooting
 
