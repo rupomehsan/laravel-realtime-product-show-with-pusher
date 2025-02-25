@@ -14,11 +14,11 @@ Before running the Laravel project, ensure you have the following installed:
 ### 1.Open the terminal Navigate to the Project Directory
 
 ```sh
-git clone project-link
+git clone https://github.com/rupomehsan/laravel-realtime-product-show-with-pusher.git
 ```
 
 ```sh
-cd /path/to/your/laravel_project
+cd laravel-realtime-product-show-with-pusher
 ```
 
 ### 2. Install Dependencies
