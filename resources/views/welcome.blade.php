@@ -15,27 +15,15 @@
          <a class="btn btn-info float-end" href="{{ route('addProduct')  }}" target="_blank">Add Product</a>
      </div>
     <div class="row align-items-start justify-content-start " id="product-list">
-        @foreach($products as $product)
-        @php
-            $product =  (object) $product;
-            
-        @endphp
-        <div class="col-md-3 ">
-            <div class="card m-2" style="width: 15rem; ">
-                <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <p class="card-text">{{ substr($product->title, 0, 20) }}  </p>
-                    <p class="card-text">{{ substr($product->description, 0, 40) }}</p>
-                    <h6>${{ $product->price }}</h6>
-                </div>
-            </div>
-        </div>
-        @endforeach
+      
+       
+     
     
     </div>
       </div>
  <script>
         document.addEventListener("DOMContentLoaded", function() {
+             fetchLatestProducts()
             Pusher.logToConsole = true;
 
             var pusher = new Pusher("{{ env('PUSHER_APP_KEY') }}", {
@@ -45,22 +33,34 @@
 
             var channel = pusher.subscribe("products");
             channel.bind("product-updated", function(data) {
-                let productList = document.getElementById("product-list");
-                let newProduct = `
-                        <div class="col-md-3">
-                            <div class="card m-2" style="width: 15rem;">
-                                <img src="https://placehold.co/600x400/orange/white?text={{ $product->title }}" class="card-img-top" alt="Product Image">
-                                <div class="card-body">
-                                    <p class="card-text fw-bold">${data.product.title}</p>
-                                    <p class="card-text fw-bold">${data.product.description}</p>
-                                    <h6 class="fw-bold">$${data.product.price}</h6>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                productList.innerHTML = newProduct + productList.innerHTML;
+                fetchLatestProducts()
             });
         });
+
+           function fetchLatestProducts() {
+                fetch("{{ route('products.fetch') }}") // Ensure this route returns the latest products
+                    .then(response => response.json())
+                    .then(data => {
+                        let newProduct = document.getElementById("product-list");
+                        newProduct.innerHTML = ""; // Clear table before re-rendering
+                         data.products.forEach(product => {
+                            let newRow = `
+                               <div class="col-md-3">
+                                    <div class="card m-2" style="width: 15rem;">
+                                        <img src="https://placehold.co/600x400/orange/white?text=${product.title}" class="card-img-top" alt="Product Image">
+                                        <div class="card-body">
+                                            <p class="card-text fw-bold">${product.title}</p>
+                                            <p class="card-text fw-bold">${product.description}</p>
+                                            <h6 class="fw-bold">$${product.price}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            newProduct.innerHTML += newRow; // Append new row
+                        });
+                    })
+                    .catch(error => console.error("Error fetching products:", error));
+        }
     </script>
 </body>
 </html>
