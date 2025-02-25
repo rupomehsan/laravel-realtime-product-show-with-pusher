@@ -68,7 +68,7 @@ php artisan serve
 
 This will start the application at `http://127.0.0.1:8000/`.
 
-# A brief explanation of how Pusher is integrated and how real-time updates are handled.
+# Brief explanation of how Pusher is integrated and how real-time updates are handled.
 
 ```php
 return [
@@ -156,6 +156,29 @@ public function boot()
     Broadcast::routes();
     require base_path('routes/channels.php');
 }
+
+Ensure `app/boostrap/providers.php` includes:
+
+
+return [
+    App\Providers\AppServiceProvider::class,
+    App\Providers\BroadcastServiceProvider::class,
+];
+
+
+```
+
+```php
+
+Ensure `app/boostrap/providers.php` includes:
+
+
+return [
+    App\Providers\AppServiceProvider::class,
+    App\Providers\BroadcastServiceProvider::class,
+];
+
+
 ```
 
 ## 7️⃣ Update Laravel Controller
