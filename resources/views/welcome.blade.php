@@ -3,24 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product List</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" >
-    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+    <title>Product Lists</title>
+    @include('partials.links')
    
 </head>
 <body>
 
-    <div class="container">
-
-    <h5 class="text-center alert alert-success mt-3">Product List</h5>
-    <div class="row align-items-start justify-content-start border" id="product-list">
+    <div class="container card my-5">
+     <div class="alert alert-success mt-3 d-flex justify-content-between">
+         <h5 class="text-center ">Product Lists</h5>
+         <a class="btn btn-info float-end" href="{{ route('addProduct')  }}" target="_blank">Add Product</a>
+     </div>
+    <div class="row align-items-start justify-content-start " id="product-list">
         @foreach($products as $product)
+        @php
+            $product =  (object) $product;
+            
+        @endphp
         <div class="col-md-3 ">
             <div class="card m-2" style="width: 15rem; ">
                 <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <p class="card-text">{{ $product->name }}</p>
-                    <p class="card-text">{{ $product->description }}</p>
+                    <p class="card-text">{{ substr($product->title, 0, 20) }}  </p>
+                    <p class="card-text">{{ substr($product->description, 0, 40) }}</p>
                     <h6>${{ $product->price }}</h6>
                 </div>
             </div>
@@ -44,11 +49,11 @@
                 let newProduct = `
                         <div class="col-md-3">
                             <div class="card m-2" style="width: 15rem;">
-                                <img src="https://placehold.co/600x400" class="card-img-top" alt="Product Image">
+                                <img src="https://placehold.co/600x400/orange/white?text={{ $product->title }}" class="card-img-top" alt="Product Image">
                                 <div class="card-body">
-                                    <p class="card-text">${data.product.name}</p>
-                                    <p class="card-text">${data.product.description}</p>
-                                    <h6>$${data.product.price}</h6>
+                                    <p class="card-text fw-bold">${data.product.title}</p>
+                                    <p class="card-text fw-bold">${data.product.description}</p>
+                                    <h6 class="fw-bold">$${data.product.price}</h6>
                                 </div>
                             </div>
                         </div>
